@@ -3,9 +3,23 @@ const express = require('express')
 const moment = require('moment')
 const app = express()
 const port = 7878; //port for https
+let fs = require('fs');
 
 app.get('/', (req, res) => {
-    res.send("Hello World");
+    res.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+    // res.send('');
+    fs.readFile('./index.html', null, function (error, data) {
+        if (error) {
+            res.writeHead(404);
+            res.write('Whoops! File not found!');
+        } else {
+            res.write(data);
+        }
+        res.end();
+    });
+
 });
 
 app.listen(port, () => {
